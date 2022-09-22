@@ -1,3 +1,54 @@
+JGGDashboard = function( title    = NULL
+                              ,id       = NULL
+                              ,...
+                                 ,theme    = bslib::bs_theme()
+                              ,paths    = NULL
+                              ,cssFiles = NULL
+                              ,jsFiles  = NULL
+                              ,jsInit   = NULL
+                              ,titleActive = FALSE
+                              ,lang    = NULL
+
+   ) {
+  # Quitamos:
+  # position = c("static-top", "fixed-top", "fixed-bottom")
+  #            static-top
+  # header = NULL, footer = NULL,
+  # bg = NULL, inverse = "auto",
+  # collapsible = TRUE, fluid = TRUE,
+  # window_title = NA,
+  #   Ya tenemos title
+  #jsFiles es una lista de listas:
+  # shiny
+  #   source
+  #   functions
+    pathShiny = normalizePath(system.file("extdata/www", package = packageName()))
+    #pathShiny = normalizePath("extdata/www")
+    shiny::addResourcePath("jggshiny", pathShiny)
+
+    if (!is.null(paths)) {
+        lapply(names(paths), function(path) shiny::addResourcePath(path, paths[[path]]))
+    }
+
+    page = jgg_bslib_navs_bar_full(webtitle = title, titleActive = titleActive, id = id, ... )
+
+    jsshiny = parseJGGShinyJS()
+    heads = tags$head(
+               extendShinyjs(script="jggshiny/jggshiny.js", functions=jsshiny)
+               ,custom_css(cssFiles)
+              ,custom_js(jsFiles)
+              ,document_ready_script(jsInit, title, id)
+            )
+
+    bspage = jgg_dashboard_bslib_page( title = title, theme = theme, lang = lang
+                                      ,shinyjs::useShinyjs()
+                                      ,heads
+                                      ,page
+              )
+    bspage
+   addDeps(shiny::tags$body(bspage))
+}
+
 JGGDashboardFull = function( title    = NULL
                               ,id       = NULL
                               ,theme    = bs_theme()
@@ -21,6 +72,7 @@ JGGDashboardFull = function( title    = NULL
   #   source
   #   functions
     pathShiny = normalizePath(system.file("extdata/www", package = packageName()))
+    #pathShiny = normalizePath("extdata/www")
     shiny::addResourcePath("jggshiny", pathShiny)
 
     if (!is.null(paths)) {
@@ -197,6 +249,7 @@ old_buildTabItem <- function(index, tabsetId, foundSelected, tabs = NULL,
 }
 parseJGGShinyJS = function() {
     jsfile = system.file("extdata/www/jggshiny.js", package=packageName())
+    #jsfile ="extdata/www/jggshiny.js"
     lines = readLines(jsfile)
     resp = regexpr("[ ]*shinyjs\\.[a-zA-Z0-9_-]+[ ]*=", lines)
     lens = attr(resp, "match.length")

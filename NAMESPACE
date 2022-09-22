@@ -1,4 +1,4 @@
-import(rlang)
+import(rlang,   except=c(hash))
 import(stringr)
 import(shiny,   except=c(runExample))
 import(shinyjs, except=c(runExample, alert))
@@ -6,6 +6,7 @@ import(htmltools)
 import(bslib)
 import(shinyWidgets)
 import(shinydashboard)
+import(hash)
 
 exportPattern("JGG.+")
 exportPattern("WDG.+")

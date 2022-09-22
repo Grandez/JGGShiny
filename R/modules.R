@@ -1,4 +1,8 @@
-JGGModule = function(id, title="",mod=NULL, ...) {
+JGGTab = function(id, title=id, icon=NULL, module=NULL) {
+    bslib::nav(title, module, value=id, icon=icon)
+}
+
+JGGUI = function(id, title="",mod=NULL, ...) {
    ns = shiny::NS(id)
    if (is.null(mod)) {
        modName =  paste0(stringr::str_to_title(strsplit(id, "-")[[1]]), collapse="")
@@ -7,14 +11,21 @@ JGGModule = function(id, title="",mod=NULL, ...) {
        data = eval(parse(text=paste0("mod", mod, "Input('", id, "')")))
    }
 
-   idForm = paste0(id, "_div_form")
-   idErr  = paste0(id, "_div_err")
+   idForm   = paste0(id, "_div_form")
+   idErr    = paste0(id, "_div_err")
+   divLeft  = NULL
+   divRight = NULL
+   
+   
 
-   divLeft  = tags$div(id=paste0(id, "_container_left"),  class="jgg_page_left  jgg_side_hide")
-   divRight = tags$div(id=paste0(id, "_container_right"), class="jgg_page_right jgg_side_hide")
-
-   if (!is.null(data$left))  divLeft  = tagAppendChildren(divLeft, data$left)
-   if (!is.null(data$right)) divRight = tagAppendChildren(divRight, data$right)
+   if (!is.null(data$left))  {
+      divLeft  = tags$div(id=paste0(id, "_container_left"),  class="jgg_page_left  jgg_side_hide")
+      divLeft  = tagAppendChildren(divLeft, data$left)
+   }
+   if (!is.null(data$right)) {
+      divRight = tags$div(id=paste0(id, "_container_right"), class="jgg_page_right jgg_side_hide")
+      divRight = tagAppendChildren(divRight, data$right)
+   }
 
    # El collapse va a nivel contenedor para activar las clases left y principal
    divMain    = tags$div(id=paste0(id, "_container_main"), class="jgg_panel_main", data$main)

@@ -227,62 +227,65 @@ bslib_p_randomInt <- function(...) {
 # declared inside the bslib_buildTabset() function and it's been
 # refactored for clarity and reusability). Called internally
 # by bslib_buildTabset.
-bslib_buildTabItem <- function(index, tabsetId, foundSelected, tabs = NULL,
-                         divTag = NULL, textFilter = NULL) {
 
-  divTag <- divTag %||% tabs[[index]]
+#JGG COMMENT FUNCTION
+# bslib_buildTabItem <- function(index, tabsetId, foundSelected, tabs = NULL,
+#                          divTag = NULL, textFilter = NULL) {
+# 
+#   divTag <- divTag %||% tabs[[index]]
+# 
+#   # Handles navlistPanel() headers and dropdown dividers
+#   if (is.character(divTag) && !is.null(textFilter)) {
+#     return(list(liTag = textFilter(divTag), divTag = NULL))
+#   }
+# 
+#   if (bslib_isNavbarMenu(divTag)) {
+#     # tabPanelMenu item: build the child tabset
+#     ulClass <- "dropdown-menu"
+#     if (identical(divTag$align, "right")) {
+#       ulClass <- paste(ulClass, "dropdown-menu-right dropdown-menu-end")
+#     }
+#     tabset <- bslib_buildTabset(
+#       !!!divTag$tabs, ulClass = ulClass,
+#       textFilter = bslib_navbarMenuTextFilter,
+#       foundSelected = foundSelected
+#     )
+#     return(bslib_buildDropdown(divTag, tabset))
+#   }
+# 
+#   if (bslib_isTabPanel(divTag)) {
+#     return(bslib_buildNavItem(divTag, tabsetId, index))
+#   }
+# 
+#   if (is_nav_item(divTag) || is_nav_spacer(divTag)) {
+#     return(
+#       list(liTag = divTag, divTag = NULL)
+#     )
+#   }
+# 
+#   # The behavior is undefined at this point, so construct a condition message
+#   msg <- paste0(
+#     "Navigation containers expect a collection of `bslib::nav()`/`shiny::tabPanel()`s ",
+#     "and/or `bslib::nav_menu()`/`shiny::navbarMenu()`s. ",
+#     "Consider using `header` or `footer` if you wish to place content above ",
+#     "(or below) every panel's contents."
+#   )
+# 
+#   # Luckily this case has never worked, so it's safe to throw here
+#   # https://github.com/rstudio/shiny/issues/3313
+#   if (!inherits(divTag, "shiny.tag"))  {
+#     stop(msg, call. = FALSE)
+#   }
+# 
+#   # Unfortunately, this 'off-label' use case creates an 'empty' nav and includes
+#   # the divTag content on every tab. There shouldn't be any reason to be relying on
+#   # this behavior since we now have pre/post arguments, so throw a warning, but still
+#   # support the use case since we don't make breaking changes
+#   warning(msg, call. = FALSE)
+# 
+#   return(bslib_buildNavItem(divTag, tabsetId, index))
+# }
 
-  # Handles navlistPanel() headers and dropdown dividers
-  if (is.character(divTag) && !is.null(textFilter)) {
-    return(list(liTag = textFilter(divTag), divTag = NULL))
-  }
-
-  if (bslib_isNavbarMenu(divTag)) {
-    # tabPanelMenu item: build the child tabset
-    ulClass <- "dropdown-menu"
-    if (identical(divTag$align, "right")) {
-      ulClass <- paste(ulClass, "dropdown-menu-right dropdown-menu-end")
-    }
-    tabset <- bslib_buildTabset(
-      !!!divTag$tabs, ulClass = ulClass,
-      textFilter = bslib_navbarMenuTextFilter,
-      foundSelected = foundSelected
-    )
-    return(bslib_buildDropdown(divTag, tabset))
-  }
-
-  if (bslib_isTabPanel(divTag)) {
-    return(bslib_buildNavItem(divTag, tabsetId, index))
-  }
-
-  if (is_nav_item(divTag) || is_nav_spacer(divTag)) {
-    return(
-      list(liTag = divTag, divTag = NULL)
-    )
-  }
-
-  # The behavior is undefined at this point, so construct a condition message
-  msg <- paste0(
-    "Navigation containers expect a collection of `bslib::nav()`/`shiny::tabPanel()`s ",
-    "and/or `bslib::nav_menu()`/`shiny::navbarMenu()`s. ",
-    "Consider using `header` or `footer` if you wish to place content above ",
-    "(or below) every panel's contents."
-  )
-
-  # Luckily this case has never worked, so it's safe to throw here
-  # https://github.com/rstudio/shiny/issues/3313
-  if (!inherits(divTag, "shiny.tag"))  {
-    stop(msg, call. = FALSE)
-  }
-
-  # Unfortunately, this 'off-label' use case creates an 'empty' nav and includes
-  # the divTag content on every tab. There shouldn't be any reason to be relying on
-  # this behavior since we now have pre/post arguments, so throw a warning, but still
-  # support the use case since we don't make breaking changes
-  warning(msg, call. = FALSE)
-
-  return(bslib_buildNavItem(divTag, tabsetId, index))
-}
 
 bslib_buildNavItem <- function(divTag, tabsetId, index) {
   id <- paste("tab", tabsetId, index, sep = "-")
@@ -326,36 +329,38 @@ bslib_markTabAsSelected <- function(x) {
 #JGG ESTA
 # This function is called internally by navbarPage, tabsetPanel
 # and navlistPanel
-bslib_buildTabset = function(..., ulClass, textFilter = NULL, id = NULL,
-                        selected = NULL, foundSelected = FALSE) {
-  tabs = bslib_dropNulls(rlang::list2(...))
-  res = bslib:::findAndMarkSelectedTab(tabs, selected, foundSelected)
-  tabs = res$tabs
-  foundSelected <- res$foundSelected
 
-  # add input class if we have an id
-  if (!is.null(id)) ulClass <- paste(ulClass, "shiny-tab-input")
-
-  if (bslib_anyNamed(tabs)) {
-    nms <- names(tabs)
-    nms <- nms[nzchar(nms)]
-    stop("Tabs should all be unnamed arguments, but some are named: ",
-         paste(nms, collapse = ", "))
-  }
-
-  tabsetId <- bslib_p_randomInt(1000, 10000)
-  tabs <- lapply(seq_len(length(tabs)), bslib_buildTabItem,
-                 tabsetId = tabsetId, foundSelected = foundSelected,
-                 tabs = tabs, textFilter = textFilter)
-
-  tabNavList = tags$ul(class = ulClass, id = id,
-                        `data-tabsetid` = tabsetId, !!!lapply(tabs, "[[", "liTag"))
-
-  tabContent = tags$div(class = "tab-content",
-                         `data-tabsetid` = tabsetId, !!!lapply(tabs, "[[", "divTag"))
-
-  list(navList = tabNavList, content = tabContent)
-}
+#JGG COMMENT FUNCTION
+# bslib_buildTabset = function(..., ulClass, textFilter = NULL, id = NULL,
+#                         selected = NULL, foundSelected = FALSE) {
+#   tabs = bslib_dropNulls(rlang::list2(...))
+#   res = bslib:::findAndMarkSelectedTab(tabs, selected, foundSelected)
+#   tabs = res$tabs
+#   foundSelected <- res$foundSelected
+# 
+#   # add input class if we have an id
+#   if (!is.null(id)) ulClass <- paste(ulClass, "shiny-tab-input")
+# 
+#   if (bslib_anyNamed(tabs)) {
+#     nms <- names(tabs)
+#     nms <- nms[nzchar(nms)]
+#     stop("Tabs should all be unnamed arguments, but some are named: ",
+#          paste(nms, collapse = ", "))
+#   }
+# 
+#   tabsetId <- bslib_p_randomInt(1000, 10000)
+#   tabs <- lapply(seq_len(length(tabs)), bslib_buildTabItem,
+#                  tabsetId = tabsetId, foundSelected = foundSelected,
+#                  tabs = tabs, textFilter = textFilter)
+# 
+#   tabNavList = tags$ul(class = ulClass, id = id,
+#                         `data-tabsetid` = tabsetId, !!!lapply(tabs, "[[", "liTag"))
+# 
+#   tabContent = tags$div(class = "tab-content",
+#                          `data-tabsetid` = tabsetId, !!!lapply(tabs, "[[", "divTag"))
+# 
+#   list(navList = tabNavList, content = tabContent)
+# }
 
 bslib_buildDropdown <- function(divTag, tabset) {
 

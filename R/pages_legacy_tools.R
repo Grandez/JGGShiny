@@ -6,7 +6,7 @@
 jgg_bslib_navbarPage_ <- function(id, ...) {
 
   navbarClass <- "navbar navbar-default navbar-static-top"
-  tabset = bslib_buildTabset( ...
+  tabset = bslib:::buildTabset( ...
                              ,ulClass = "nav navbar-nav", textFilter=NULL, id = id
                              ,selected = NULL, foundSelected = FALSE)
   # Aqui tenemos las dos partes
