@@ -140,7 +140,7 @@ jgg_make_page_header <- function(parent, nav, titleActive = FALSE, titleWidth = 
         ,role  = "button"
         ,`data-toggle` = "jgg_right_button" # javascript
         ,shiny::tags$span( id="jgg_right_side_open"
-                          ,shiny::icon( "cog" ,"fa-lg"
+                          ,shiny::icon( "icon-cog" ,"fa-lg"
                           ,style="padding-top: 12px"))
         ,shiny::tags$span( id="jgg_right_side_close"
                           ,class="jgg_button_side_hide"

@@ -20,23 +20,25 @@ JGGWEB = R6::R6Class("JGG.WEB.SINGLETON"
          self$session = session
          invisible(self)
       }
-     ,getPanel   = function(id, object = NULL, parent=NULL, session=getDefaultReactiveDomain(), ...) {
+     ,getPanel   = function(id, object = NULL, session=getDefaultReactiveDomain(), ...) {
          panel = private$panels$get(id)
          if (is.null(panel)) {
              args = list(...)
              if (!is.null(object)) {
-                 panel = object$new(id, parent, session, ...)
+                 panel = object$new(id, session, ...)
                  private$panels$put(id, panel)
-                 self$subscribe(id, panel$events$listen)
+#                 self$subscribe(id, panel$events$listen)
              }
-             if (is.null(args$dashboard))  shinyjs::js$jgg_add_page(id)
-             if (!is.null(args$dashboard)) shinyjs::js$jgg_add_dash(paste(id, args$dashboard, sep="_"))
-         } 
+             #JGG Revisar add_page y add_dashboard
+             shinyjs::js$jgg_add_page(id)
+             # if (is.null(args$dashboard))  shinyjs::js$jgg_add_page(id)
+             # if (!is.null(args$dashboard)) shinyjs::js$jgg_add_dash(paste(id, args$dashboard, sep="_"))
+         }
          # else {
          #     if (panel$portfolio != private$idPortfolio) panel$loaded = FALSE
          # }
          # panel$portfolio = private$idPortfolio
-         if (!is.null(panel)) lapply(panel$events$events, function(evt) self$unnotify(evt))
+#         if (!is.null(panel)) lapply(panel$events$events, function(evt) self$unnotify(evt))
          shinyjs::js$jgg_set_page(id)
          panel
      }
