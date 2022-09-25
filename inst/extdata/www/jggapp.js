@@ -93,11 +93,14 @@ class JGGShiny {
            page.left = -1; // Closed
        }
 
-       id = "#" + page.name + "_container_left";
+       let idLeft = "#" + page.name + "_container_left";
+       let idMain = "#" + page.name + "_container_main";
        if (page.left == 1) {
-           $(id).removeClass('jgg_side_hide').trigger('expanded.pushMenu');
+           $(idLeft).removeClass('jgg_side_hide').trigger('expanded.pushMenu');
+           $(idMain).addClass('jgg_side_1');
        } else {
-           $(id).addClass('jgg_side_hide').trigger('collapsed.pushMenu');
+           $(idLeft).addClass('jgg_side_hide').trigger('collapsed.pushMenu');
+           $(idMain).removeClass('jgg_side_1');
        }
        jggshiny.update_page(page);
    }

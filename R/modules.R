@@ -15,8 +15,8 @@ JGGUI = function(id, title="",mod=NULL, ...) {
    idErr    = paste0(id, "_div_err")
    divLeft  = NULL
    divRight = NULL
-   
-   
+
+
 
    if (!is.null(data$left))  {
       divLeft  = tags$div(id=paste0(id, "_container_left"),  class="jgg_page_left  jgg_side_hide")
@@ -28,15 +28,16 @@ JGGUI = function(id, title="",mod=NULL, ...) {
    }
 
    # El collapse va a nivel contenedor para activar las clases left y principal
-   divMain    = tags$div(id=paste0(id, "_container_main"), class="jgg_panel_main", data$main)
+   divMain    = tags$div(id=paste0(id, "_container_main"), class="jgg_page_main", data$main)
    divContent = tags$div( id=paste0(id, "_container"), class="jgg_panel_content"
                          ,divLeft, divMain, divRight)
-   divForm = tags$div(id=paste0(id, "_form_panel"), class="jgg_panel_form"
+   divForm = tags$div(id=paste0(id, "-form_modal"), class="jgg_panel_form"
                       ,tags$div(id=paste0( idForm, "-container")
                                           ,class="jgg_form_center"
+                                          ,h1("ESTE ES EL PANEL")
                                           ,uiOutput(ns("form")))
                      )
-   divErr = tags$div(id=paste0(id, "_err_panel"), class="jgg_panel_err"
+   divErr = tags$div(id=paste0(id, "-form_err"), class="jgg_panel_err"
                       ,tags$div(id=paste0(idErr, "_container"), class="jgg_form_center", uiOutput(ns("err")))
                      )
 

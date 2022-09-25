@@ -7,9 +7,9 @@
     position: relative;
 }
 .jgg_page_left {
-/*   width: 200px; */
+  width: 15%;
   height: 100%;
-  background-color: lightskyblue;
+  background-color: lightgray;
   overflow-x: hidden;
   transition: 0.5s;
   float: left;
@@ -20,6 +20,14 @@
   background-color: #222;
   overflow-x: hidden;
   transition: 0.5s;
+}
+.jgg_page_main {
+    float: left;
+    width: 100%;
+}
+/* Se añade cuando un sidebar se abre */
+.jgg_side_1 {
+    width: 85%;
 }
 
 .jgg_header {
@@ -49,6 +57,20 @@
 .jgg_tab_content {
     display: flex;
     flex-flow: row;
+}
+.jgg_panel_form {
+   margin: 0;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   background-color: grey;
+   z-index: 99;
+   opacity: 0.5;
+   -webkit-transform: translate(-50%, -50%);
+   -ms-transform:     translate(-50%, -50%);
+   -moz-transform:    translate(-50%, -50%);
+   -o-transform:      translate(-50%, -50%);
+   transform:         translate(-50%, -50%);
 }
 .jgg_panel_err_container {
    margin: 0;
