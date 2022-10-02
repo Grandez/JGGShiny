@@ -58,6 +58,7 @@
     display: flex;
     flex-flow: row;
 }
+/*
 .jgg_panel_form {
    margin: 0;
    position: absolute;
@@ -72,6 +73,25 @@
    -o-transform:      translate(-50%, -50%);
    transform:         translate(-50%, -50%);
 }
+*/
+.jgg_form_container {
+   margin: 0;
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(211,211,211,0.75);
+   z-index: 50;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.jgg_form_data {
+    background-color: white;
+    opacity: 1;
+}
+
 .jgg_panel_err_container {
    margin: 0;
    position: absolute;

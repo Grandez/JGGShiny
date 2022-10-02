@@ -12,12 +12,8 @@ guiColumn = function(width, ...) {
     tags$div(class = colClass, ...)
 }
 
-guiCombo = function( id, label=NULL, choices=NULL, selected = NULL) {
-    lbl = NULL
-    choice = c("")
-    if (!is.null(label))   lbl    = label
-    if (!is.null(choices)) choice = choices
-    shiny::selectInput(id, lbl, choice, selected=selected,width="auto", selectize=FALSE)
+guiCombo = function (id, label=NULL, choices=c("Nothing"=" "), selected = NULL) {
+    shiny::selectInput(id, label, choices, selected=selected, width="auto", selectize=FALSE)
 }
 guiComboSelect = function( id, label=NULL, choices=NULL, text=NULL, selected = NULL) {
     lbl = NULL
@@ -51,7 +47,7 @@ guiNumericInput = function(id, label=NULL, value=0, step, min, max) {
   widget[[3]][[2]]$attribs$class = "form-control yata_number"
   widget
 }
-updNumericInput = function(id, value, session=getDefaultReactiveDomain()) {
+updNumericInput = function(id, value=0, session=getDefaultReactiveDomain()) {
   shiny::updateNumericInput(session, id, value = value)
 }
 
@@ -104,4 +100,13 @@ guiLayoutSelect = function (inputId, choices, selected = NULL, full=TRUE) {
    div( class = "form-group shiny-input-container"
        ,style = css(width = validateCssUnit("auto"))
        ,shiny:::shinyInputLabel(inputId, NULL), div(selectTag))
+}
+guiDateInput = function(inputId, label = NULL, value = NULL, min = NULL, max = NULL) {
+    shiny::dateInput( inputId, label, format = "dd/mm/yyyy"
+                     ,value = value, min = min, max = max
+                     ,startview = "month", weekstart = 1, language = "es")
+}
+updDateInput = function ( inputId, label = NULL, value = NULL, min = NULL, max = NULL
+                         ,session = getDefaultReactiveDomain()) {
+   shiny::updateDateInput(session=session,inputId=inputId, label=label,value=value,min=min,max=max)
 }

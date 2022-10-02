@@ -31,10 +31,9 @@ JGGUI = function(id, title="",mod=NULL, ...) {
    divMain    = tags$div(id=paste0(id, "_container_main"), class="jgg_page_main", data$main)
    divContent = tags$div( id=paste0(id, "_container"), class="jgg_panel_content"
                          ,divLeft, divMain, divRight)
-   divForm = tags$div(id=paste0(id, "-form_modal"), class="jgg_panel_form"
-                      ,tags$div(id=paste0( idForm, "-container")
-                                          ,class="jgg_form_center"
-                                          ,h1("ESTE ES EL PANEL")
+   divForm = tags$div(id=paste0(id, "-form_container"), class="jgg_form_container"
+                      ,tags$div(id=paste0( idForm, "form_data")
+                                          ,class="jgg_form_data"
                                           ,uiOutput(ns("form")))
                      )
    divErr = tags$div(id=paste0(id, "-form_err"), class="jgg_panel_err"
@@ -70,8 +69,8 @@ JGGSubModule = function(id, title="",mod=NULL, ...) {
     divMain    = tags$div(id=paste0(id, "_container_main"), class="jgg_panel_main", data$main)
     divContent = tags$div( id=paste0(id, "_container"), class="jgg_panel_content"
                           ,divLeft, divMain, divRight)
-    divForm = tags$div(id=paste0(id, "_form_panel"), class="jgg_panel_form"
-                       ,tags$div(id=paste0(idForm, "-container"), class="jgg_form_center", uiOutput(ns("form")))
+    divForm = tags$div(id=paste0(id, "_modalform"), class="jgg_form_container"
+                       ,tags$div(id=paste0(id, "form_data"), class="jgg_form_data", uiOutput(ns("form")))
         )
     divErr = tags$div(id=paste0(id, "_err_panel"), class="jgg_panel_err"
                       ,tags$div(id=paste0(idErr, "-container"), class="jgg_form_center", uiOutput(ns("err")))
