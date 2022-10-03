@@ -209,6 +209,7 @@
 
 .jgg_brand {
     margin-left: 3px; /* Como los monitores */
+    padding-left: 15px; /* Corrije el padding 0 de los grid */
 }
 .jgg_number {
   text-align: right;
