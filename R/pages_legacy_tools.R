@@ -148,7 +148,7 @@ jgg_make_page_header <- function(parent, nav, titleActive = FALSE, titleWidth = 
                           ,style= "padding-top: 12px"))
     )
 
-    divBrand = tags$div(id="jgg_brand", class="col-lg-1")
+    divBrand = tags$div(id="jgg_brand", class="col-lg-1 jgg_brand")
     if (titleActive) {
         span = shiny::tags$span( class="navbar-brand jgg_brand jgg_clickable"
                                 ,onclick="Shiny.setInputValue('app_title', 'click');")

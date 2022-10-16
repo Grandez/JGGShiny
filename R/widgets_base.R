@@ -110,3 +110,20 @@ updDateInput = function ( inputId, label = NULL, value = NULL, min = NULL, max =
                          ,session = getDefaultReactiveDomain()) {
    shiny::updateDateInput(session=session,inputId=inputId, label=label,value=value,min=min,max=max)
 }
+guiButton = function(id, label, icon) {
+    shiny::actionButton(id, "", icon = icon(icon))
+}
+updButtonIcon = function(id, icon, session = getDefaultReactiveDomain()) {
+    shiny::updateActionButton(session, id, icon = icon(icon))
+}
+
+guiButton = function( inputId, label = NULL, icon = NULL
+                     ,type=c("primary", "secondary", "info", "warning", "success", "danger")
+                     ,outline = FALSE, size=NULL, style="material-flat") {
+
+    btnColor = type
+    shinyWidgets::actionBttn(inputId, label,icon=icon, style=style, color = btnColor)
+}
+updButton = function (inputId, label = NULL, icon = NULL) {
+    shiny::updateActionButton(inputId=inputId, label=label, icon = icon)
+}

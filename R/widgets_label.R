@@ -12,30 +12,27 @@ guiLabelBold = function(id, class) {
 updLabelText = function(txt) {
   renderText({ txt })
 }
-guiLabelNumber = function(id, label=NULL, inline=TRUE) {
-  htmlOutput(outputId=id, inline=TRUE, class="yataTextRight")
-}
-guiLabelNumeric = function(id, label=NULL, inline=TRUE) {
-  htmlOutput(outputId=id, inline=TRUE, class="yataTextRight")
+guiLabelNumber = function(id, inline=TRUE) {
+  tagAppendAttributes(textOutput(id, inline=inline), class="jgg_text_right")
 }
 updLabelNumber   = function(value, dec=-1, bold=TRUE, color=FALSE) {
   text = format(value, big.mark = ".", decimal.mark=",")
   if (dec > -1) text = format(value, big.mark = ".", decimal.mark=",", nsmall=dec)
-  .updLabelNumber(value, text, bold, color)
+  .updLabelNumber(text, bold, color)
 }
 guiLabelInteger = function(id, label=NULL, inline=TRUE) {
-  htmlOutput(outputId=id, inline=TRUE, class="yataTextRight")
+  htmlOutput(outputId=id, inline=TRUE, class="jgg_text_right")
 }
 updLabelInteger   = function(value, bold=TRUE, color=FALSE) {
   text = format(round(value), big.mark = ".", decimal.mark=",")
-  .updLabelNumber(value, text, bold, color)
+  .updLabelNumber(text, bold, color)
 }
 guiLabelPercentage = function(id, label=NULL, inline=TRUE) {
-  htmlOutput(outputId=id, inline=TRUE, class="yataTextRight")
+  htmlOutput(outputId=id, inline=TRUE, class="jgg_text_right")
 }
 updLabelPercentage   = function(value, bold=TRUE, color=FALSE) {
   text = format(value, big.mark = ".", decimal.mark=",", nsmall=2)
-  .updLabelNumber(value, text, bold, color)
+  .updLabelNumber(text, bold, color)
 }
 guiLabelDate = function(id, label=NULL, inline=TRUE) {
   if (!is.null(label)) {
@@ -79,4 +76,8 @@ guiLabelTime = function(id, label=NULL, inline=TRUE) {
 updLabelTime = function(epoch) {
   if (missing(epoch)) epoch=as.numeric(Sys.time())
   renderText({format(as.POSIXct(epoch, origin="1970-01-01"),"%H:%M:%S")})
+}
+
+.updLabelNumber = function(text, bold, color) {
+    shiny::renderText({text})
 }

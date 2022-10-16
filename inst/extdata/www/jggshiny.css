@@ -40,6 +40,8 @@
 /*  height: 100%;*/
   overflow: auto;
   margin-bottom: 32px;
+  /* JGG TODO pendienye de ajustar */
+  margin-top: 46px;
 }
 .jgg_footer {
    background-color: black;
@@ -217,4 +219,8 @@
 
 .jgg_layout_row  .form-group {
     margin-bottom: 0;
+}
+
+.jgg_text_right {
+    text-align: right;
 }
