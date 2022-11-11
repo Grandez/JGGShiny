@@ -102,9 +102,6 @@ jgg_dashboard_bslib_page = function(..., title = NULL, theme = bs_theme(), lang 
    data
 }
 
-
-
-
 # This function is called internally by navbarPage, tabsetPanel
 # and navlistPanel
 mi_buildTabset <- function(..., ulClass, textFilter = NULL, id = NULL,

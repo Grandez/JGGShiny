@@ -20,12 +20,12 @@ JGGWEB = R6::R6Class("JGG.WEB.SINGLETON"
          self$session = session
          invisible(self)
       }
-     ,getPanel   = function(id, object = NULL, session=getDefaultReactiveDomain(), ...) {
+     ,getPanel   = function(id, object = NULL, parent=NULL, session=getDefaultReactiveDomain(), ...) {
          panel = private$panels$get(id)
          if (is.null(panel)) {
              args = list(...)
              if (!is.null(object)) {
-                 panel = object$new(id, session, ...)
+                 panel = object$new(id, parent, session, ...)
                  private$panels$put(id, panel)
 #                 self$subscribe(id, panel$events$listen)
              }

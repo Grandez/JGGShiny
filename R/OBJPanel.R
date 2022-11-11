@@ -9,7 +9,6 @@ JGGPanel = R6::R6Class("JGG.WEB.PANEL.INFO"
     ,root       = NULL  # Puntero a raiz
     ,session    = NULL
     ,factory    = NULL
-    ,loaded     = FALSE # Flag de carga
     ,data       = list()  # Datos
     ,vars       = list()  # Variables temporales con memoria
     ,cookies    = list()  # Variables con estado
@@ -17,23 +16,21 @@ JGGPanel = R6::R6Class("JGG.WEB.PANEL.INFO"
     ,codes      = NULL
     ,parms      = NULL
     ,msg        = NULL
+    ,inEvent    = FALSE  # Tag for nested events
     ,print      = function() { message(paste("Panel object for", self$name)) }
     ,initialize = function(id, parent, session) {
+        # Force to create WEB Singleton when doesn't exist (teorically never)
         web = tryCatch({ WEB }, error = function(cond) { YATAWebEnv$new()})
 
-        self$name      = id
-        self$parent    = parent
-        self$session   = session
-        self$root      = private$getRoot()
-
-        private$idPortfolio = web$portfolio
+        # Shortcuts to common objects
+        self$name    = id
+        self$parent  = parent
+        self$session = session
+        self$root    = private$getRoot()
         self$factory = web$factory
         self$cookies = web$getCookies(id)
-
-        self$codes   = self$factory$codes
         self$parms   = self$factory$parms
         self$msg     = self$factory$msg
-
     }
     ,getParent = function(name) {
         pp = self$parent
@@ -50,10 +47,17 @@ JGGPanel = R6::R6Class("JGG.WEB.PANEL.INFO"
     # }
     ,invalidate = function(panel) {
        if (!is.null(self$parent)) self$parent$invalidate(panel)
+       private$loaded = FALSE
        invisible(self)
     }
-    ,isInvalid = function(panel) {
-        if (!is.null(self$parent)) self$parent$isInvalid(panel)
+#    ,isInvalid = function(panel) {
+    ,invalid = function() {
+        # Necesita recargar datos?
+        if (!private$loaded) {
+            private$loaded = TRUE
+            return (TRUE)
+        }
+        if (!is.null(self$parent)) self$parent$invalid(panel)
      }
     ,reset     = function() {
         if (!is.null(self$parent)) self$parent$reset(self$name)
@@ -72,8 +76,8 @@ JGGPanel = R6::R6Class("JGG.WEB.PANEL.INFO"
 
   )
   ,private = list(
-      idPortfolio = 0  # Current portfolio
-     ,getRoot   = function() {
+      loaded  = FALSE # Flag de carga
+     ,getRoot = function() {
          tmp = self$parent
          while (!is.null(tmp)) tmp = tmp$parent
          tmp

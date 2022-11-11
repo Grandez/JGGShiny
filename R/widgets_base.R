@@ -28,6 +28,11 @@ guiComboSelect = function( id, label=NULL, choices=NULL, text=NULL, selected = N
 updCombo = function(id, choices=NULL, selected=NULL, session = getDefaultReactiveDomain()) {
     shiny::updateSelectInput(session=session, inputId=id, choices = choices, selected = selected)
 }
+updComboSelect = function(id, choices=NULL, selected=NULL, server=TRUE, session = getDefaultReactiveDomain()) {
+    shiny::updateSelectizeInput( session  = session,  inputId = id, choices = choices
+                                ,selected = selected, server  = server)
+}
+
 guiListBox = function( id, label=NULL, choices=NULL, size=10, ...) {
     lbl = NULL
     choice = c("")
@@ -126,4 +131,14 @@ guiButton = function( inputId, label = NULL, icon = NULL
 }
 updButton = function (inputId, label = NULL, icon = NULL) {
     shiny::updateActionButton(inputId=inputId, label=label, icon = icon)
+}
+guiSwitch = function(inputId, on, off, value=TRUE, size=NULL) {
+    if (is.null(size)) size = "large"
+    shinyWidgets::switchInput( inputId=inputId, onLabel = on, offLabel = on
+                              ,onStatus = "success", offStatus = "danger"
+                              ,size    =  size,      value = value)
+}
+guiSwitchLabel = function(inputId, label, value=TRUE, size=NULL) {
+    if (is.null(size)) size = "100px"
+    shinyWidgets::switchInput( inputId=inputId, label=label, labelWidth=size)
 }
