@@ -67,7 +67,12 @@ guiIntegerInput = function(id, label=NULL, value=0, step, min, max) {
 updIntegerInput = function(id, value, session=getDefaultReactiveDomain()) {
   shiny::updateNumericInput(session, id, value = value)
 }
-
+guiTextInput = function (inputId, label=NULL, value = "") {
+  shiny::textInput(inputId, label=label, value=value)
+}
+updTextInput = function (id, value, session=getDefaultReactiveDomain()) {
+  shiny::updateTextInput(session, id, value=value)
+}
 guiTextArea = function (inputId, label=NULL, value = "", width = NULL, height = NULL,
     cols = NULL, rows = NULL, placeholder = NULL, resize = NULL) {
     value <- restoreInput(id = inputId, default = value)
