@@ -22,7 +22,7 @@ JGGDashboard = function( title    = NULL
   # shiny
   #   source
   #   functions
-    pathShiny = normalizePath(system.file("extdata/www", package = packageName()))
+    pathShiny = normalizePath(system.file("extdata/www", package = utils::packageName()))
     #pathShiny = normalizePath("extdata/www")
     shiny::addResourcePath("jggshiny", pathShiny)
 

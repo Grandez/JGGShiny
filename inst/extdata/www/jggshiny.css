@@ -196,9 +196,10 @@
  **************************************/
 
 #jgg_tab_content {
-    padding: 0;
+    padding: 2px;
     margin: 0;
 }
+
 #jgg_left_side {
     color: rgb(255,255,255);
 }

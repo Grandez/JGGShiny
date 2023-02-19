@@ -28,7 +28,7 @@ makeTable = function (data, ...) {
       js_code = "function(rowInfo, colInfo) {"
       js_code = paste(js_code, evt, sep="\n")
       js_code = paste(js_code, "}", sep="\n")
-      JS(js_code)
+      htmlwidgets::JS(js_code)
    }
    cols    = NULL
    onClick = NULL

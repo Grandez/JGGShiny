@@ -147,3 +147,7 @@ guiSwitchLabel = function(inputId, label, value=TRUE, size=NULL) {
     if (is.null(size)) size = "100px"
     shinyWidgets::switchInput( inputId=inputId, label=label, labelWidth=size)
 }
+guiSwitchLabels = function(inputId, on="On", off="Off", value=TRUE, size=NULL) {
+    if (is.null(size)) size = "100px"
+    shinyWidgets::switchInput( inputId=inputId, onLabel=on, offLabel=off, labelWidth=size)
+}
