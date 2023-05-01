@@ -21,7 +21,7 @@ makeGroupedTable = function(data, group=NULL, columns=NULL, method=NULL, ...) {
 
 makeTable = function (data, ...) {
    jscode = function(idTable) {
-      data = paste("{ row: rowInfo.index + 1, colName: colInfo.id")
+      data = paste("{ row: rowInfo.index + 1, col: colInfo.index + 1, colName: colInfo.id")
       data = paste(data, ",detail: JSON.stringify(rowInfo.row)}")
       evt = paste0("Shiny.setInputValue('", idTable, "',", data, ",{ priority: 'event' });")
 

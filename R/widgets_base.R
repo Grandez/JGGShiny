@@ -151,3 +151,6 @@ guiSwitchLabels = function(inputId, on="On", off="Off", value=TRUE, size=NULL) {
     if (is.null(size)) size = "100px"
     shinyWidgets::switchInput( inputId=inputId, onLabel=on, offLabel=off, labelWidth=size)
 }
+guiCheckbox = function(inputId,label=NULL,value=TRUE, color="primary") {
+    shinyWidgets::awesomeCheckbox(inputId=inputId, label=label, value=value, status=color)
+}
