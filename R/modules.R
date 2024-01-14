@@ -1,5 +1,9 @@
 JGGTab = function(id, title=id, icon=NULL, module=NULL) {
-    bslib::nav(title, module, value=id, icon=icon)
+    #JGGCHG bslib::nav(title, module, value=id, icon=icon)
+    bslib::nav_panel(title, module, value=id, icon=icon)
+}
+JGGMenu = function (title, ..., menuName = title, icon = NULL) {
+  bslib::nav_menu(title, ..., value = menuName, icon = icon, align="left")
 }
 
 JGGUI = function(id, title="",mod=NULL, ...) {

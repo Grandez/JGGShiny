@@ -4,11 +4,14 @@
 # -----------------------------------------------------------------------
 
 jgg_bslib_navbarPage_ <- function(id, ...) {
-
   navbarClass <- "navbar navbar-default navbar-static-top"
-  tabset = bslib:::buildTabset( ...
+  # tabset = bslib:::buildTabset( ...
+  #                            ,ulClass = "nav navbar-nav", textFilter=NULL, id = id
+  #                            ,selected = NULL, foundSelected = FALSE)
+  tabset = bslib_buildTabset( ...
                              ,ulClass = "nav navbar-nav", textFilter=NULL, id = id
                              ,selected = NULL, foundSelected = FALSE)
+
   # Aqui tenemos las dos partes
 
   contentDiv = div(id="jgg_tab_content", class = c("container-fluid"))
@@ -21,6 +24,7 @@ jgg_bslib_navbarPage_ <- function(id, ...) {
 }
 jgg_bslib_navs_bar_full = function (webtitle, titleActive, id, ...) {
     # Tiene Panel derecho y panel izquiero
+
     webtitle=NULL
     tabset = jgg_bslib_navbarPage_(id, ...)
 
@@ -80,7 +84,6 @@ jgg_make_container_full = function (nav, content, titleActive) {
 }
 
 jgg_make_container = function (nav, content, titleActive) {
-    browser()
    contentDiv = shiny::tags$div(id="jgg_page")
    divHeader  = shiny::tags$div(id="jgg_page_header", class="jgg_header row" )
    divBody    = shiny::tags$div(id="jgg_page_body",   class="jgg_body"   )
